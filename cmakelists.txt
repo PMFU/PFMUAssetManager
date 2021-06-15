@@ -27,7 +27,7 @@ file(GLOB_RECURSE src RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-add_executable(astmnger ${src} ${header} ${engineheader} ${enginesrc})
+add_executable(astmnger ${src} ${header})
 
 #target_include_directories(Basalt PUBLIC "Engine/")
 
