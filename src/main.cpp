@@ -13,8 +13,11 @@ public:
 class Texture	:	public Asset
 {
 public:
-	static void load();
+	static Texture load()
+	{
 
+	}
+	
 	void thing();
 };
 
