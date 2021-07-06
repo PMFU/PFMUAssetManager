@@ -4,33 +4,45 @@
 #include <optional>
 #include <string>
 
-
-struct Asset
+namespace bs
 {
-	
-};
-
-
-struct AssetType
-{
-	//Example: "tex, typeid(Texture).name"
-	AssetType(std::string inExtension)    :   extension(inExtension)
+	struct Asset
 	{
+		virtual void load(const std::string& loaderfilename) = 0;
+		virtual void unload() = 0;
+	};
+
+
+	struct AssetType
+	{
+		//Example: "tex, typeid(Texture).name"
+		AssetType(const std::string& inExtension)    :   extension(inExtension)
+		{
+			
+		}
+		AssetType(std::string&& inExtension)    :   extension(inExtension)
+		{
+			
+		}
 		
-	}
-	
-	std::string extension;
-};
+		std::string extension;
+	};
 
-template <typename assetType>
-struct AssetRef
-{
-	std::shared_ptr<assetType> p_Asset;
-};
+	template <typename asset_type>
+	struct AssetRef
+	{
+		std::shared_ptr<asset_type> p_Asset;
 
-struct AssetEntry
-{
-	std::weak_ptr<Asset> asset;	//this is for inheritance
-	std::string ID;
-	size_t type; //Asset Types index
-};
+		asset_type& get()
+		{
+			return *p_Asset.get();
+		}
+	};
+
+	struct AssetEntry
+	{
+		std::shared_ptr<Asset> asset;	//this is for inheritance
+		std::string ID;
+		size_t type; //Asset Types index
+	};
+}

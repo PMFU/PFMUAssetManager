@@ -2,18 +2,21 @@
 
 #include "AssetManager.h"
 
-class Model	:	public Asset
+class Model	:	public bs::Asset
 {
 public:
-	static void load();
+	void load(const std::string& loaderfilename) override
+	{
+
+	}
 
 	void thing();
 };
 
-class Texture	:	public Asset
+class Texture	:	public bs::Asset
 {
 public:
-	static Texture load()
+	void load(const std::string& loaderfilename) override
 	{
 
 	}
@@ -21,18 +24,24 @@ public:
 	void thing();
 };
 
-class MapData	:	public Asset
+class MapData	:	public bs::Asset
 {
 public:
-	static void load();
+	void load(const std::string& loaderfilename) override
+	{
+
+	}
 
 	void thing();
 };
 
-class JSON	:	public Asset
+class JSON	:	public bs::Asset
 {
 public:
-	static void load();
+	void load(const std::string& loaderfilename) override
+	{
+
+	}
 
 	void thing();
 };
@@ -40,15 +49,14 @@ public:
 int main()
 {
 
-	AssetManager asset_manager;
 
-	asset_manager.addAssetType<Model>(AssetType("tex"))
-				.addAssetType<Texture>(AssetType("tex"))
-				.addAssetType<MapData>(AssetType("mpd"))
-				.addAssetType<JSON>(AssetType("jsondef"))
+	bs::asset_manager->addAssetType<Model>(bs::AssetType("tex"))
+				.addAssetType<Texture>(bs::AssetType("tex"))
+				.addAssetType<MapData>(bs::AssetType("mpd"))
+				.addAssetType<JSON>(bs::AssetType("jsondef"))
 	.build();
 
-	auto modelAsset = asset_manager.getAsset<Model>("3D model");
+	auto modelAsset = bs::asset_manager->getAsset<Model>("3D model");
 
 	modelAsset->p_Asset->thing();
 
