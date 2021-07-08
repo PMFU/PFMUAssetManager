@@ -6,6 +6,9 @@
 
 namespace bs
 {
+	template <class T, class U>
+	concept Derived = std::is_base_of<U, T>::value;
+
 	struct Asset
 	{
 		virtual void load(const std::string& loaderfilename) = 0;
@@ -28,7 +31,7 @@ namespace bs
 		std::string extension;
 	};
 
-	template <typename asset_type>
+	template <Derived<bs::Asset> asset_type>
 	struct AssetRef
 	{
 		std::shared_ptr<asset_type> p_Asset;

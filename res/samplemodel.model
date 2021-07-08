@@ -1,0 +1,6 @@
+{
+	"name" : "assetname",
+	"path" : "res/Models/path_to_file.obj",
+
+    "other" : "other",
+}

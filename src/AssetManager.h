@@ -13,7 +13,7 @@ namespace bs
 	{
 	public:
 		//After build this may not be called
-		template <typename asset_type>
+		template <Derived<bs::Asset> asset_type>
 		AssetManager& addAssetType(AssetType type)
 		{
 			static size_t index = 0;
@@ -41,7 +41,7 @@ namespace bs
 		void build();
 
 		//Retreive an asset from the asset manager
-		template <typename asset_type>
+		template <Derived<bs::Asset> asset_type>
 		std::optional<AssetRef<asset_type>> getAsset(const KeyType& id)
 		{
 			int mapid = -1;
@@ -61,15 +61,21 @@ namespace bs
 				return std::nullopt;
 			}
 			if(m_assetmap[mapid].contains(id))
-			{
-				return std::make_optional<AssetRef<asset_type>>(m_assetmap[mapid].at(id));
+			{	//Make the asset entry into the asset ref
+				//@TODO: I HAVE FAILED AT THIS, SOMEONE, ANYONE, PLEASE HELP!!!
+				bs::AssetRef<asset_type> r
+				{
+					.p_Asset = m_assetmap[mapid].at(id).asset,
+				};
+				//r.p_Asset.reset(reinterpret_cast<asset_type*>(m_assetmap[mapid].at(id).asset.get()));
+				return std::make_optional<AssetRef<asset_type>>(std::forward<AssetRef<asset_type>>(r));
 			}
 
 			return std::nullopt;
 		}
 
 		//Add an asset to the asset manager from existing types
-		template <typename asset_type>
+		template <Derived<bs::Asset> asset_type>
 		void addAsset(const KeyType& id, asset_type& asset)
 		{
 			int mapid = -1;
@@ -93,7 +99,7 @@ namespace bs
 		}
 
 		//Retrieve the full asset map of an asset type, for iteration purposes
-		template <typename asset_type>
+		template <Derived<bs::Asset> asset_type>
 		const std::optional<std::unordered_map<KeyType, AssetEntry>>& getAssetMap()
 		{
 			int mapid = -1;
